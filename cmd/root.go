@@ -5,26 +5,36 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/cobra"
+	"net/http"
 	"os"
 	"strings"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "hugo",
-	Short: "Hugo is a very fast static site generator",
-	Long: `A Fast and Flexible Static Site Generator built with
-                love by spf13 and friends in Go.
-                Complete documentation is available at http://hugo.spf13.com`,
+	Short: "Very sample web server",
 	RunE: func(cmd *cobra.Command, args []string) error {
 
 		e := echo.New()
-		e.Use(middleware.Logger())
 		e.Use(middleware.Recover())
 
 		httpListen := ":8080"
 		if val, ok := os.LookupEnv("PORT"); ok && len(val) > 0 {
 			httpListen = strings.TrimSpace(val)
 		}
+
+		e.GET("/health", func(c echo.Context) error {
+			return c.String(http.StatusOK, "OK")
+		})
+
+		group := e.Group("/v1")
+
+		group.Use(middleware.RequestID())
+		group.Use(middleware.RemoveTrailingSlash())
+		group.Use(middleware.Logger())
+
+		group.GET("/hello", func(c echo.Context) error {
+			return c.JSON(http.StatusOK, "ok")
+		})
 
 		return e.Start(httpListen)
 	},

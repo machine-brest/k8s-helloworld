@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    metadata:
+      labels: {}
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: postgres
+          image: postgres:13-alpine
+          envFrom:
+            - configMapRef:
+                name: postgres-cfg
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+          ports:
+            - name: sql
+              containerPort: 5432
+              protocol: TCP
+
+        - name: postgres-ui
+          image: dpage/pgadmin4
+          env:
+            - name: PGADMIN_LISTEN_PORT
+              value: "5050"
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: "pgadmin@example.com"
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: "pgadminpass"
+
+      volumes:
+        - name: postgres-data
+          emptyDir:
+            sizeLimit: 100M
+
+        - name: postgres-cfg
+          configMap:
+            name: postgres-cfg

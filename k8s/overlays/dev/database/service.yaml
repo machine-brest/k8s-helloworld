@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  type: ClusterIP
+  selector: {}
+  ports:
+    - name: sql
+      port: 5432
+      targetPort: sql
+      protocol: TCP
+
+    - name: ui
+      port: 5050
+      targetPort: 5050
+      protocol: TCP

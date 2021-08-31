@@ -1,0 +1,6 @@
+schemaVersion: 2.0.0
+
+fileExistenceTests:
+  - name: 'has app binary'
+    path: '/app/app'
+    shouldExist: true

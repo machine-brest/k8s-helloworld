@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-helloworld
+spec:
+  selector:
+    matchLabels:
+      app: k8s-helloworld
+  template:
+    metadata:
+      labels:
+        app: k8s-helloworld
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: app
+          image: k8s-helloworld
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /health
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
