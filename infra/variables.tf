@@ -1,3 +1,8 @@
+variable "aws_vpc_name" {
+  type        = string
+  description = "AWS VPC Name"
+}
+
 variable "aws_access_key" {
   type        = string
   description = "AWS Access Key"
