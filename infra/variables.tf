@@ -1,6 +1,7 @@
 variable "aws_vpc_name" {
   type        = string
   description = "AWS VPC Name"
+  default     = "vpc01"
 }
 
 variable "aws_access_key" {
