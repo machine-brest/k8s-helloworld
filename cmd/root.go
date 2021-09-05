@@ -2,8 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/machine-brest/k8s-helloworld/srv"
+	"github.com/machine-brest/k8s-helloworld/srv/data"
 	"github.com/spf13/cobra"
 	"net/http"
 	"os"
@@ -32,12 +36,48 @@ var rootCmd = &cobra.Command{
 		group.Use(middleware.RemoveTrailingSlash())
 		group.Use(middleware.Logger())
 
+		db := pg.Connect(&pg.Options{
+			Addr:     "postgres:5432",
+			User:     "dbuser",
+			Password: "dbpass",
+			Database: "sample",
+		})
+
+		err := createSchema(db)
+		if err != nil {
+			return err
+		}
+
+		defer func() {
+			_ = db.Close()
+		}()
+
+		group.POST("/login", srv.Login(db))
+
 		group.GET("/hello", func(c echo.Context) error {
 			return c.JSON(http.StatusOK, "ok")
 		})
 
 		return e.Start(httpListen)
 	},
+}
+
+func createSchema(db *pg.DB) error {
+	models := []interface{}{
+		(*data.User)(nil),
+	}
+
+	for _, model := range models {
+		err := db.Model(model).CreateTable(&orm.CreateTableOptions{
+			IfNotExists: true,
+		})
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func Execute() {
