@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta19
+apiVersion: skaffold/v2beta22
 kind: Config
 metadata:
   name: k8s-helloworld
@@ -12,22 +12,17 @@ build:
 
 test:
   - image: k8s-helloworld
-
-    # container-structure-test
-    # https://github.com/GoogleContainerTools/container-structure-test/releases
-    # cli usage:
-    # container-structure-test test --driver docker --image image --config test/structure/config.yaml
-
+    context: test
     structureTests:
-      - 'test/structure/*'
+      - structure/*
 
 deploy:
   kubeContext: minikube
   kustomize:
     paths:
-      - k8s/overlays/dev
+      - deploy/k8s/overlays/dev
 
 profiles:
-  - name: gcp
-    build:
-      googleCloudBuild: {}
+- name: gcp
+  build:
+    googleCloudBuild: {}
