@@ -2,4 +2,5 @@
 .vscode
 .theia
 
+.terraform
 terraform.tfstate

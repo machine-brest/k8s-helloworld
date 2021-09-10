@@ -1,0 +1,19 @@
+{
+  "name": "Terraform alpine",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "3.14",
+      "TF_VERSION": "1.0.6"
+    }
+  },
+
+  "settings": {},
+
+  "extensions": [
+    "EditorConfig.EditorConfig",
+    "hashicorp.terraform",
+  ],
+
+  "remoteUser": "vscode"
+}
