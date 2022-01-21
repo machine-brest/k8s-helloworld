@@ -20,7 +20,7 @@ deploy:
   kubeContext: minikube
   kustomize:
     paths:
-      - .k8s/overlays/dev
+      - .k8s/minikube
 
 profiles:
   - name: gcp

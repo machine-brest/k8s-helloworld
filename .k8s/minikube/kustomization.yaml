@@ -6,5 +6,9 @@ commonLabels:
   app.kubernetes.io/component: server
 
 resources:
+  - ./database
   - deployment.yaml
   - service.yaml
+  - routing/stripprefix-middleware.yaml
+  - routing/traefikservice.yaml
+  - routing/ingressroute.yaml

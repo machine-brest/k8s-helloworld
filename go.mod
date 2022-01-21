@@ -10,6 +10,9 @@ require (
 	github.com/uptrace/bun v1.0.3
 	github.com/uptrace/bun/dialect/pgdialect v1.0.3
 	github.com/uptrace/bun/driver/pgdriver v1.0.3
+	go.opentelemetry.io/otel v1.3.0
+	go.opentelemetry.io/otel/exporters/jaeger v1.3.0
+	go.opentelemetry.io/otel/sdk v1.3.0
 	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 )
