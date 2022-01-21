@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: k8s-helloworld
+  labels: {}
+spec:
+  weighted:
+    services:
+      - name: k8s-helloworld
+        kind: Service
+        port: 80
+        weight: 1

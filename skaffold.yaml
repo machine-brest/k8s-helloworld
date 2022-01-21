@@ -1,14 +1,14 @@
-apiVersion: skaffold/v2beta22
+apiVersion: skaffold/v2beta25
 kind: Config
 metadata:
   name: k8s-helloworld
 
 build:
   artifacts:
-    - image: k8s-helloworld
-      context: .
-      docker:
-        dockerfile: Dockerfile
+  - image: k8s-helloworld
+    context: .
+    docker:
+      dockerfile: Dockerfile
 
 test:
   - image: k8s-helloworld
@@ -20,9 +20,9 @@ deploy:
   kubeContext: minikube
   kustomize:
     paths:
-      - deploy/k8s/overlays/dev
+      - .k8s/overlays/dev
 
 profiles:
-- name: gcp
-  build:
-    googleCloudBuild: {}
+  - name: gcp
+    build:
+      googleCloudBuild: {}

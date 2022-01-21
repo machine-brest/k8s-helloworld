@@ -34,11 +34,20 @@ spec:
               value: "pgadmin@example.com"
             - name: PGADMIN_DEFAULT_PASSWORD
               value: "pgadminpass"
+          volumeMounts:
+            - mountPath: /pgadmin4/servers.json
+              name: pgadmin-servers
+              subPath: servers.json
 
       volumes:
         - name: postgres-data
           emptyDir:
             sizeLimit: 100M
+
+        - name: pgadmin-servers
+          configMap:
+            name: pgadmin-servers
+            optional: false
 
         - name: postgres-cfg
           configMap:

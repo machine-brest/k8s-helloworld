@@ -7,8 +7,14 @@ commonLabels:
 
 configMapGenerator:
   - name: postgres-cfg
-    envs:
-      - postgres.env
+    literals:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+      - POSTGRES_DB=sample
+
+  - name: pgadmin-servers
+    files:
+      - "servers.json=pgadmin-servers.json"
 
 resources:
   - deployment.yaml

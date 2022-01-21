@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: k8s-helloworld-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - "/k8s-helloworld"
+    forceSlash: false

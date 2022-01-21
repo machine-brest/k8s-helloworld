@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: k8s-helloworld
+  labels: {}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/k8s-helloworld`)
+      priority: 1
+      middlewares:
+        - name: k8s-helloworld-stripprefix
+      services:
+        - kind: TraefikService
+          name: k8s-helloworld
+          scheme: http
+          port: 80
